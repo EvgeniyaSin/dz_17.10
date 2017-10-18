@@ -1,0 +1,146 @@
+import unittest
+  
+   from main import SimCard
+  
+  
+   class TestSimCard(unittest.TestCase):
+  
+       def setUp(self):
+           """
+          Create sim card user before each test
+          """
+          self.user = SimCard(5734)
+ 
+      def test_check_balance(self):
+          user_balance = self.user.check_balance()
+          self.assertEqual(19, user_balance)
+ 
+      def test_add_balance_1(self):
+          user_balance = self.user.add_money(20)
+          self.assertEqual(40, user_balance)
+ 
+      def test_add_balance_2(self):
+          user_balance = self.user.add_money(5.27)
+          self.assertEqual(25.27, user_balance)
+ 
+      def test_add_balance_3(self):
+          bal = self.user.add_money(0)
+          self.assertEqual(20, bal)
+ 
+      def test_add_balance_4(self):
+          bal = self.user.add_money(1000000000)
+          self.assertEqual(1000000020, bal)
+ 
+      def test_add_balance_negav(self):
+          bal = self.user.add_money(-10)
+          self.assertEqual(-1, bal)
+ 
+      def test_check_bal_1(self):
+          bal = self.user.check_balance()
+          self.assertEqual(19, bal)
+
+      def test_check_bal_2(self):
+          bal = self.user.add_money(10.50)
+          bal = self.user.check_balance()
+          self.assertEqual(29.50, bal)
+ 
+      def test_check_bal_3(self):
+          bal = self.user.add_money(0)
+          bal = self.user.check_balance()
+          self.assertEqual(19, bal)
+ 
+      def test_check_bal_4(self):
+          for i in range(19):
+              bal = self.user.check_balance()
+          self.assertEqual(1, bal)
+ 
+      def test_check_bal_5(self):
+          for i in range(22):
+              bal = self.user.check_balance()
+          self.assertEqual(-1, bal)
+ 
+      def test_check_bal_6(self):
+          bal = self.user.add_money(-30)
+          bal = self.user.check_balance()
+          self.assertEqual(-1, bal)
+ 
+      def test_send_sms(self):
+          sms = self.user.send_sms()
+          self.assertEqual(15, sms)
+ 
+      def test_send_sms_1(self):
+          sms = self.user.add_money(10.50)
+          sms = self.user.send_sms()
+          self.assertEqual(25.50, sms)
+ 
+      def test_send_sms_2(self):
+          sms = self.user.add_money(0)
+          sms = self.user.send_sms()
+          self.assertEqual(15, sms)
+
+      def test_send_sms_3(self):
+          for i in range(3):
+              sms = self.user.send_sms()
+          self.assertEqual(5, sms)
+ 
+      def test_send_sms_4(self):
+          for i in range(6):
+              sms = self.user.send_sms()
+          self.assertEqual(-1, sms)
+ 
+      def test_make_call_1(self):
+          call = self.user.make_call(5)
+          self.assertEqual(15, call)
+ 
+      def test_make_call_2(self):
+          call = self.user.make_call(4.50)
+          self.assertEqual(15.50, call)
+ 
+      def test_make_call_3(self):
+          call = self.user.make_call(0)
+          self.assertEqual(20, call)
+
+      def test_make_call_4(self):
+          call = self.user.add_money(5)
+          call = self.user.make_call(17)
+          self.assertEqual(8, call)
+
+      def test_make_call_5(self):
+          call = self.user.add_money(0)
+          call = self.user.make_call(7)
+          self.assertEqual(13, call)
+
+      def test_make_call_6(self):
+          call = self.user.make_call(0.01)
+          self.assertEqual(19.99, call)
+
+      def test_make_call_7(self):
+          call = self.user.make_call(10)
+          call = self.user.make_call(9.99)
+          self.assertEqual(0.01, call)
+     
+      def test_make_call_8(self):
+          call = self.user.make_call(10)
+          call = self.user.make_call(10)
+          self.assertEqual(-1, call)
+
+      def test_make_call(self):
+          call = self.user.make_call(25)
+          self.assertEqual(-1, call)
+
+class TestSimCardNotAuthorizedUser(unittest.TestCase):
+
+      @classmethod
+      def setUpClass(cls):
+         """
+         Create not authorized sim card user before each test
+         """
+          cls.user = SimCard(555)
+
+      def test_check_balance(self):
+          user_balance = self.user.check_balance()
+          self.assertEqual(-1, user_balance)
+
+
+if __name__ == '__main__':
+    unittest.main()
